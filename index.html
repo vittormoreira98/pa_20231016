@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta nome="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lanchonete</title>
 </head>
 <body>
@@ -10,58 +10,50 @@
     <script>
 
         // Opções do cardápio
-        var hamburgers = [
-        { name: 'X1', price: 1.36 },
-        { name: 'X2', price: 2.31 },
-        { name: 'X3', price: 2.81 },
-        { name: 'X4', price: 3.21 }
+        let hamburgers = [
+        { nome: 'X1', preco: 1.36 },
+        { nome: 'X2', preco: 2.31 },
+        { nome: 'X3', preco: 2.81 },
+        { nome: 'X4', preco: 3.21 }
         ];
 
-        var acompanhamentos = [
-        { name: 'Nuguets', price: 3.69 },
-        { name: 'Fritas', price: 1.58 }
+        let acompanhamentos = [
+        { nome: 'Nuguets', preco: 3.69 },
+        { nome: 'Fritas', preco: 1.58 }
         ];
 
-        var bebidas = [
-        { name: 'Coca-Cola', price: 1.48 },
-        { name: 'Fanta', price: 2.58 },
-        { name: 'Agua', price: 0.98 }
-        ];
+        let bebidas = []
+        bebidas.push({ nome: 'Coca-Cola', preco: 1.48 })
+        bebidas.push({ nome: 'Fanta', preco: 2.58 })
+        bebidas.push({ nome: 'Agua', preco: 0.98 })
 
-        // Função para pegar a opção escolhida
-        function chooseOption(array) {
-        let optionsString = '';
-        for (let i = 0; i < array.length; i++) {
-            optionsString += `${i + 1}. ${array[i].name} - R$${array[i].price.toFixed(2)}\n`;
+        var combo = [hamburgers, acompanhamentos, bebidas];
+        var escolhas = [];
+
+        
+        for(let j = 0; j < combo.length; j++) {
+            let textoOpcao = '';
+            for (let i = 0; i < combo[j].length; i++) {
+                textoOpcao += i + 1 + ". " + combo[j][i].nome + " - R$" + combo[j][i].preco.toFixed(2) + "\n";
+            }
+
+            let escolha;
+            do {
+                escolha = prompt(textoOpcao + "\nEscolha uma opção:") - 1;
+            } while (!(escolha >= 0 && escolha < combo[j].length && Number.isInteger(escolha)))
+
+            escolhas.push(combo[j][escolha]);
+            
         }
+        
+        var totalpreco = escolhas.reduce((a, c) => a + c.preco, 0);
 
-        let choice = parseInt(prompt(optionsString + "\nEscolha uma opção (1, 2, 3...):")) - 1;
-        if (choice >= 0 && choice < array.length) {
-            return array[choice];
-        } else {
-            alert("Opção inválida. Escolha novamente.");
-            return chooseOption(array);
-        }
-        }
+        document.getElementById("resultado").innerHTML = "Você escolheu:" +
+        "</br><ul><li>" + escolhas[0].nome + " - " + escolhas[0].preco + 
+        "</li></br><li> " + escolhas[1].nome + " - " + escolhas[1].preco + 
+        "</li></br><li> " + escolhas[2].nome + " - " + escolhas[2].preco +
+        "</li></ul></br><strong>Valor total: R$" + totalpreco.toFixed(2) + '</strong>';
 
-        // Solicitando as opções
-        var escolhaHamburger = chooseOption(hamburgers);
-        var escolhaAcompanhamento = chooseOption(acompanhamentos);
-        var escolhaBebida = chooseOption(bebidas);
-
-        // Calculando o total
-        var totalPrice = escolhaHamburger.price + escolhaAcompanhamento.price + escolhaBebida.price;
-
-        // Mostrando o resultado
-        alert(`Você escolheu:
-        - ${escolhaHamburger.name}
-        - ${escolhaAcompanhamento.name}
-        - ${escolhaBebida.name}
-
-        Valor total: R$${totalPrice.toFixed(2)}`);
-
-
- 
     </script>
 </body>
 </html>
